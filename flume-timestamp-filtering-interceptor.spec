@@ -1,0 +1,35 @@
+Name:       flume-timestamp-filtering-interceptor
+Version:    0.0
+Release:    1%{?dist}
+Summary:    Flume interceptor to filter events based on timestamp
+
+Group:      Development/Languages
+License:    Apache License, Version 2.0
+
+Source0:    %{name}-%{version}.jar
+
+BuildArch:   noarch
+BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+
+Requires:   aimon-flume-ng
+
+%description
+Flume interceptor to filter events based on timestamp
+
+%install
+rm -rf %{buildroot}
+install -p -D -m 644 %{SOURCE0} %{buildroot}/usr/lib/flume-ng/plugins.d/%{name}/lib/%{name}-%{version}.jar
+
+%clean
+rm -rf %{buildroot}
+
+%files
+%defattr(-,root,root,-)
+%dir %attr(755,flume,flume) /usr/lib/flume-ng/plugins.d
+%dir %attr(755,flume,flume) /usr/lib/flume-ng/plugins.d/%{name}
+%dir %attr(755,flume,flume) /usr/lib/flume-ng/plugins.d/%{name}/lib
+%attr(644,flume,flume) /usr/lib/flume-ng/plugins.d/%{name}/lib/%{name}-%{version}.jar
+
+%changelog
+* Wed Oct 08 2014 Stefano Zilli <stefano.zilli@cern.ch> 0.0-1
+- First version
