@@ -16,7 +16,7 @@ Flume interceptor that filters events selectively based on a configured passedTi
     ```
     $ mkdir -p /usr/lib/flume-ng/plugins.d/flume-timestamp-filter/lib
     $ chown -R flume:flume /usr/lib/flume-ng/plugins.d/
-    $ cp /path/to/flume-timestamp-filter/target/flume-timestamp-filtering-interceptor-1.0.jar /usr/lib/flume-ng/plugins.d/flume-timestamp-filter/lib/
+    $ cp /path/to/flume-timestamp-filter/target/flume-timestamp-filtering-interceptor-0.0.jar /usr/lib/flume-ng/plugins.d/flume-timestamp-filter/lib/
     ```
     
 4. Configure flume.conf according to **Configuration**
