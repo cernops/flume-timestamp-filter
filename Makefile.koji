@@ -1,0 +1,28 @@
+SPECFILE = $(shell find . -maxdepth 1 -type f -name '*.spec')
+PACKAGE  = $(shell awk '$$1 == "Name:"    { print $$2 }' $(SPECFILE) )
+VERSION  = $(shell awk '$$1 == "Version:" { print $$2 }' $(SPECFILE) )
+TARNAME  = $(PACKAGE)-$(VERSION).tar.gz
+
+all:
+	tar cvzf $(TARNAME) --exclude-vcs --transform 's,^,$(PACKAGE)-$(VERSION)/,' *
+
+clean:
+	rm $(TARNAME)
+
+srpm: all
+	rpmbuild -bs --define "_sourcedir `pwd`" $(SPECFILE)
+
+rpm: all
+	rpmbuild -ba --define "_sourcedir `pwd`" $(SPECFILE)
+
+scratch:
+	koji build cci7-utils --nowait --scratch git+https://github.com/cernops/flume-timestamp-filter.git#$(shell git describe)
+
+build:
+	koji build cci7-utils --nowait git+https://github.com/cernops/flume-timestamp-filter.git#$(shell git describe)
+
+tag-qa:
+	koji tag-pkg cci7-utils-qa --nowait $(PACKAGE)-$(shell git describe).el7
+
+tag-stable:
+	koji tag-pkg cci7-utils-stable --nowait $(PACKAGE)-$(shell git describe).el7
