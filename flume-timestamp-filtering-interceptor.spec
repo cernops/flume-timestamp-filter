@@ -9,7 +9,6 @@ Group:         CERN/Utilities
 License:       Apache License, Version 2.0
 URL:           https://openstack.cern.ch/
 
-BuildRequires: maven
 Requires:      aimon-flume-ng
 
 
@@ -18,9 +17,6 @@ Flume interceptor to filter events based on timestamp
 
 %prep
 %setup -q -n %{name}-%{version}
-
-%build
-mvn clean package
 
 %install
 %{__rm} -rf %{buildroot}

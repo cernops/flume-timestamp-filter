@@ -1,10 +1,12 @@
 SPECFILE = $(shell find . -maxdepth 1 -type f -name '*.spec')
 PACKAGE  = $(shell awk '$$1 == "Name:"    { print $$2 }' $(SPECFILE) )
 VERSION  = $(shell awk '$$1 == "Version:" { print $$2 }' $(SPECFILE) )
+RELEASE  = $(shell awk '$$1 == "Release:" { print $$2 }' $(SPECFILE) )
 TARNAME  = $(PACKAGE)-$(VERSION).tar.gz
 
 all:
-	tar cvzf $(TARNAME) --exclude-vcs --transform 's,^,$(PACKAGE)-$(VERSION)/,' *
+	mvn clean package
+	tar cvzf $(TARNAME) --exclude-vcs --transform 's,^,$(PACKAGE)-$(VERSION)/,' target/$(PACKAGE)-$(VERSION).jar
 
 clean:
 	rm $(TARNAME)
@@ -15,11 +17,11 @@ srpm: all
 rpm: all
 	rpmbuild -ba --define "_sourcedir `pwd`" $(SPECFILE)
 
-scratch:
-	koji build cci7-utils --nowait --scratch git+https://github.com/cernops/flume-timestamp-filter.git#$(shell git describe)
+scratch: srpm
+	koji build cci7-utils --nowait --scratch _srcrpmdir/$(PACKAGE)-$(VERSION)-$(RELEASE).src.rpm
 
-build:
-	koji build cci7-utils --nowait git+https://github.com/cernops/flume-timestamp-filter.git#$(shell git describe)
+build: srpm
+	koji build cci7-utils --nowait _srcrpmdir/$(PACKAGE)-$(VERSION)-$(RELEASE).src.rpm
 
 tag-qa:
 	koji tag-pkg cci7-utils-qa --nowait $(PACKAGE)-$(shell git describe).el7
