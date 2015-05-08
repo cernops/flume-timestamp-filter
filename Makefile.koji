@@ -18,10 +18,10 @@ rpm: all
 	rpmbuild -ba --define "_sourcedir `pwd`" $(SPECFILE)
 
 scratch: srpm
-	koji build cci7-utils --nowait --scratch $(HOME)/rpmbuild/SRPMS/noarch/$(PACKAGE)-$(VERSION)-$(RELEASE).src.rpm
+	koji build cci7-utils --nowait --scratch $(HOME)/rpmbuild/SRPMS/$(PACKAGE)-$(VERSION)-$(RELEASE).src.rpm
 
 build: srpm
-	koji build cci7-utils --nowait $(HOME)/rpmbuild/SRPMS/noarch/$(PACKAGE)-$(VERSION)-$(RELEASE).src.rpm
+	koji build cci7-utils --nowait $(HOME)/rpmbuild/SRPMS/$(PACKAGE)-$(VERSION)-$(RELEASE).src.rpm
 
 tag-qa:
 	koji tag-pkg cci7-utils-qa --nowait $(PACKAGE)-$(VERSION)-$(RELEASE)
