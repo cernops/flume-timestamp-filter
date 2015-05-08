@@ -1,6 +1,6 @@
 Name:          flume-timestamp-filtering-interceptor
 Version:       0.0
-Release:       3%{?dist}
+Release:       3.el7
 Summary:       Flume interceptor to filter events based on timestamp
 Source0:       %{name}-%{version}.tar.gz
 BuildArch:     noarch
