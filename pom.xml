@@ -21,7 +21,7 @@ limitations under the License.
   <groupId>org.cern.flume.interceptor</groupId>
   <artifactId>flume-timestamp-filtering-interceptor</artifactId>
   <packaging>jar</packaging>
-  <version>0.0</version>
+  <version>1.0</version>
   <name>flume-timestamp-filtering-interceptor</name>
   <url>http://maven.apache.org</url>
   <properties>
